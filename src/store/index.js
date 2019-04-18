@@ -1,5 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
+import http from '@/http';
+import { Message } from 'element-ui';
 
 Vue.use(Vuex);
 
@@ -17,15 +19,45 @@ const state = {
         fullscreenControl: true
     },
     zoom: 17,
-    center: { lat: 40.177200, lng: 44.503490 }
+    center: { lat: 40.177200, lng: 44.503490 },
+    dialogMarkPlace: false
 };
 
 const actions = {
-    markPlace ({ state: { markers }, commit }, latLng) {
-        let { lat, lng } = latLng;
-        [lat, lng] = [lat(), lng()];
-        commit('SET', { key: 'markers', value: [{ lat, lng }] });
-        console.log(lat, lng);
+    async markPlace ({ state: { markers }, commit, dispatch }, { latLng, placeName }) {
+        try {
+            let { lat, lng } = latLng;
+            [lat, lng] = [lat(), lng()];
+            const place = await http.post('api/mark-place', { lat, lng, placeName });
+
+            lat = place.data.place.lat;
+            lng = place.data.place.lng;
+
+            dispatch('getPlaces');
+        } catch (e) {
+            Message.error({ message: e.message });
+        }
+    },
+
+    async getPlaces ({ commit }) {
+        try {
+            const markers = await http.get('api/places');
+            commit('SET', { key: 'markers', value: markers.data.places });
+        } catch (e) {
+            Message.error({ message: e.message });
+        }
+    },
+    async getPlaceById ({ commit }, placeId) {
+        try {
+            const place = await http.get('api/place', { params: { id: placeId } });
+            if (place.data.place) {
+                const { lat, lng } = place.data.place;
+                commit('SET', { key: 'markers', value: [place.data.place] });
+                commit('SET', { key: 'center', value: { lat, lng } });
+            }
+        } catch (e) {
+            Message.error({ message: e.message });
+        }
     }
 };
 
@@ -35,8 +67,15 @@ const mutations = {
     }
 };
 
+const getters = {
+    markers: ({ markers }) => {
+        return markers.filter(place => place.placeVisited === false);
+    }
+};
+
 export default new Vuex.Store({
     state,
     actions,
-    mutations
+    mutations,
+    getters
 });

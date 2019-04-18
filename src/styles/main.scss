@@ -12,13 +12,23 @@ body {
 	font-family: Roboto, sans-serif;
 }
 
-.gmap-map {
+.gmap-map-block {
 	width: 100%;
 	height: inherit;
+
+	.gmap-map {
+		width: 100%;
+		height: inherit;
+	}
+}
+
+.places {
+	width: 100%;
 }
 
 .sidebar-menu-vertical {
 	width: 200px;
+	min-width: 200px;
 	height: 100%;
 
 	.nav-icon {

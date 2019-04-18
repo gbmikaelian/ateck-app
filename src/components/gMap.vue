@@ -1,5 +1,6 @@
 <template>
-    <GmapMap
+    <div class="gmap-map-block">
+        <GmapMap
         ref="gmap"
         class="gmap-map"
         :options="mapOptions"
@@ -9,19 +10,21 @@
         <GmapMarker
             v-for="(m, index) in markers"
             :key="index"
+            :title="m.placeName"
             ref="marker"
             :position="m"
             :clickable="true"
-            :draggable="true"
         />
     </GmapMap>
+    <MarkPlace :createVisit="createVisit"/>
+    </div>
 </template>
 
 <script>
 import Vue from 'vue';
 import * as VueGoogleMaps from 'vue2-google-maps';
-import { mapState, mapActions } from 'vuex';
-
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
+import MarkPlace from './Place';
 Vue.use(VueGoogleMaps, {
     load: {
         key: process.env.VUE_APP_GOOGLE_MAP_KEY,
@@ -29,11 +32,29 @@ Vue.use(VueGoogleMaps, {
     }
 });
 export default {
+    created () {
+        const { placeId } = this.$route.query;
+        placeId ? this.getPlaceById(placeId) : this.getPlaces();
+    },
+    data () {
+        return {
+            latLng: {}
+        };
+    },
+    components: {
+        MarkPlace
+    },
     methods: {
         getCoordinate ({ latLng }) {
-            this.markPlace(latLng);
+            this.SET({ key: 'dialogMarkPlace', value: !this.dialogMarkPlace });
+            this.latLng = latLng;
         },
-        ...mapActions(['markPlace'])
+        createVisit (placeName) {
+            this.markPlace({ latLng: this.latLng, placeName });
+            this.latLng = {};
+        },
+        ...mapMutations(['SET']),
+        ...mapActions(['markPlace', 'getPlaces', 'getPlaceById'])
     },
     computed: {
         google: VueGoogleMaps.gmapApi,
@@ -41,8 +62,9 @@ export default {
             mapOptions: state => state.mapOptions,
             center: state => state.center,
             zoom: state => state.zoom,
-            markers: state => state.markers
-        })
+            dialogMarkPlace: state => state.dialogMarkPlace
+        }),
+        ...mapGetters(['markers'])
     }
 };
 </script>
