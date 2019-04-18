@@ -40,7 +40,8 @@
     "stylelint": "^9.10.1",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-processor-html": "^1.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "vue2-google-maps": "^0.10.6"
   },
   "eslintConfig": {
     "root": true,

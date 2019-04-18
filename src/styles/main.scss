@@ -12,7 +12,16 @@ body {
 	font-family: Roboto, sans-serif;
 }
 
+.gmap-map {
+	width: 100%;
+	height: inherit;
+}
+
 .sidebar-menu-vertical {
 	width: 200px;
 	height: 100%;
+
+	.nav-icon {
+		padding-right: 5px;
+	}
 }
