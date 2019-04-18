@@ -13,7 +13,7 @@ const router = new Router({
             component: SidebarMenu,
             children: [
                 { path: '/map', name: 'map', component: gMap },
-                { path: '/Places', name: 'places', component: Places }
+                { path: '/places', name: 'places', component: Places }
             ]
         }
     ]
