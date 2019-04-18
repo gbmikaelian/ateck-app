@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 import SidebarMenu from '@/components/SidebarMenu';
 import gMap from '@/components/gMap';
 import Places from '../src/components/Places';
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
     routes: [
@@ -17,6 +17,6 @@ const router = new Router({
             ]
         }
     ]
-})
+});
 
-export default router
+export default router;
