@@ -34,7 +34,7 @@ Vue.use(VueGoogleMaps, {
 export default {
     created () {
         const { placeId } = this.$route.query;
-        placeId ? this.getPlaceById(placeId) : this.getPlaces();
+        placeId ? this.getPlaceById(placeId) : this.getPlaces(true);
     },
     data () {
         return {

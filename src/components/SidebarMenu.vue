@@ -1,5 +1,5 @@
 <template>
-    <el-row type="flex" class="tac">
+    <div class="tac">
         <el-menu
             :default-active="this.$route.name"
             class="sidebar-menu-vertical"
@@ -17,7 +17,7 @@
                 </el-menu-item>
         </el-menu>
         <router-view/>
-    </el-row>
+    </div>
 </template>
 
 <script>

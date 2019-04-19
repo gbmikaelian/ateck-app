@@ -39,9 +39,9 @@ const actions = {
         }
     },
 
-    async getPlaces ({ commit }) {
+    async getPlaces ({ commit }, placeVisited) {
         try {
-            const markers = await http.get('api/places');
+            const markers = await http.get('api/places', { params: { placeVisited } });
             commit('SET', { key: 'markers', value: markers.data.places });
         } catch (e) {
             Message.error({ message: e.message });
@@ -58,6 +58,14 @@ const actions = {
         } catch (e) {
             Message.error({ message: e.message });
         }
+    },
+    async deletePlace ({ dispatch }, placeId) {
+        try {
+            await http.delete(`api/place/${placeId}`);
+            dispatch('getPlaces');
+        } catch (e) {
+            Message.error({ message: e.message });
+        }
     }
 };
 
@@ -69,7 +77,7 @@ const mutations = {
 
 const getters = {
     markers: ({ markers }) => {
-        return markers.filter(place => place.placeVisited === false);
+        return markers;
     }
 };
 
