@@ -66,6 +66,14 @@ const actions = {
         } catch (e) {
             Message.error({ message: e.message });
         }
+    },
+    async markToggleVisit ({ dispatch }, placeId) {
+        try {
+            await http.patch(`api/place/${placeId}`);
+            dispatch('getPlaces');
+        } catch (e) {
+            Message.error({ message: e.message });
+        }
     }
 };
 

@@ -8,19 +8,21 @@
                     <router-link :to="{name: 'map', query: { placeId: row._id }}">{{row.placeName}}</router-link>
                 </template>
             </el-table-column>
-            <el-table-column align="center" label="delete">
+            <el-table-column align="center" label="Delete">
                 <template slot-scope="{row}">
                     <el-button @click="deletePlace(row._id)" type="danger" round>Delete</el-button>
                 </template>
             </el-table-column>
             <el-table-column align="center" label="Visited">
                 <template slot-scope="{row}">
-                    <el-button v-if="row.placeVisited" type="success" round>
-                        Mark as not visited
-                    </el-button>
-                    <el-button v-else type="warning" round>
-                        Mark as Visited
-                    </el-button>
+                    <div @click="markToggleVisit(row._id)">
+                        <el-button v-if="row.placeVisited" type="success" round>
+                            Mark as not visited
+                        </el-button>
+                        <el-button v-else type="warning" round>
+                            Mark as Visited
+                        </el-button>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -66,7 +68,7 @@ export default {
             const property = column['property'];
             return row[property] === value;
         },
-        ...mapActions(['getPlaces', 'deletePlace'])
+        ...mapActions(['getPlaces', 'deletePlace', 'markToggleVisit'])
 
     }
 };
