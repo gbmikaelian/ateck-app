@@ -74,6 +74,14 @@ const actions = {
         } catch (e) {
             Message.error({ message: e.message });
         }
+    },
+    async filterPlace ({ state, commit }, filterPlaceName) {
+        try {
+            const { data: { filteredPlaces } } = await http.get('api/place-filter', { params: { filterPlaceName } });
+            commit('SET', { key: 'markers', value: filteredPlaces });
+        } catch (e) {
+            Message.error({ message: e.message });
+        }
     }
 };
 

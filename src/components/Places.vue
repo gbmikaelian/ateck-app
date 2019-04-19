@@ -1,7 +1,9 @@
 <template>
     <div class="places">
-        <el-button @click="resetDateFilter">reset date filter</el-button>
-        <el-button @click="clearFilter">reset all filters</el-button>
+        <div class="filter-place-input">
+            Filter
+            <el-input v-model="filterPlaceName"/>
+        </div>
         <el-table ref="filterTable" height="500" :data="markers">
             <el-table-column align="center" prop="placeName" label="Name">
                 <template slot-scope="{row}">
@@ -26,9 +28,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 export default {
+    watch: {
+        filterPlaceName () {
+            this.filterPlace(this.filterPlaceName);
+        }
+    },
     data () {
         return {
-            tableData: []
+            filterPlaceName: ''
         };
     },
     computed: {
@@ -40,30 +47,12 @@ export default {
         this.getPlaces();
     },
     methods: {
-        resetDateFilter () {
-            this
-                .$refs
-                .filterTable
-                .clearFilter('date');
-        },
-        clearFilter () {
-            this
-                .$refs
-                .filterTable
-                .clearFilter();
-        },
-        formatter (row, column) {
-            return row.address;
-        },
-        filterTag (value, row) {
-            return row.tag === value;
-        },
-        filterHandler (value, row, column) {
-            const property = column['property'];
-            return row[property] === value;
-        },
-        ...mapActions(['getPlaces', 'deletePlace', 'markToggleVisit'])
-
+        ...mapActions([
+            'getPlaces',
+            'deletePlace',
+            'markToggleVisit',
+            'filterPlace'
+        ])
     }
 };
 </script>

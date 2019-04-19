@@ -29,6 +29,10 @@ body {
 .places {
 	width: 100%;
 
+	.filter-place-input {
+		padding: 10px;
+	}
+
 	.operations-button {
 		width: 165px;
 	}
