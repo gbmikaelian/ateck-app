@@ -11,6 +11,8 @@ yarn install
 cp .env.example .env
 ```
 
+### Set your google map API_KEY
+# 
 ### Compiles and hot-reloads for development
 ```
 yarn run serve
