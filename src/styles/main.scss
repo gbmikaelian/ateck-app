@@ -6,14 +6,14 @@ body,
 	height: 100%;
 }
 
+.map-block {
+	height: inherit;
+}
+
 body {
 	padding: 0;
 	margin: 0;
 	font-family: Roboto, sans-serif;
-}
-
-.tac {
-	@include flexbox();
 }
 
 .gmap-map-block {
@@ -28,11 +28,13 @@ body {
 
 .places {
 	width: 100%;
+
+	.operations-button {
+		width: 165px;
+	}
 }
 
 .sidebar-menu-vertical {
-	width: 200px;
-	min-width: 200px;
 	height: 100%;
 
 	.nav-icon {

@@ -8,8 +8,8 @@
         @click="getCoordinate"
         :zoom="zoom">
         <GmapMarker
-            v-for="(m, index) in markers"
-            :key="index"
+            v-for="m in markers"
+            :key="m._id"
             :title="m.placeName"
             ref="marker"
             :position="m"
